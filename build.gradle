@@ -1,17 +1,45 @@
 apply plugin: 'war'
 
-sourceCompatibility = javaVersion
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = ''
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    providedCompile "javax.servlet:javax.servlet-api:3.0.1"
     
-    testCompile 'junit:unit:4.10'
+    compile "com.google.code.gson:gson:2.2.4",
+            "axis:axis:1.4",
+            "log4j:log4j:1.2.17",
+            "org.springframework.security:spring-security-config:3.2.5.RELEASE",
+            "org.springframework.security:spring-security-web:3.2.5.RELEASE",
+            "org.springframework:spring-webmvc:4.3.4.RELEASE",
+            "kr.pe.kwonnam.jsp:jsp-template-inheritance:0.3.RELEASE",
+            "org.codehaus.jackson:jackson-core-asl:1.9.13",
+            "org.codehaus.jackson:jackson-mapper-asl:1.9.13",
+            "javax.annotation:javax.annotation-api:1.2",
+            fileTree(dir: 'libs', include: '*.jar')
 }
+
+def IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
+    
+def jbossDir = (IS_WINDOWS) ? jbossDir_WINDOWS : jbossDir_UNIX;
+task deploy << {
+    def warName = rootProject.name + ".war"
+    def mainPropertiesName = rootProject.name + ".properties"
+    def logPropertiesName = rootProject.name + "Log.properties"
+    
+    copy{
+        from(file("$buildDir/libs/$warName"))
+        into("$jbossDir/standalone/deployments")
+    }
+    copy{
+        from(file("$rootDir/$propertiesDir/$mainPropertiesName"))
+        into("$jbossDir/standalone/configuration/Applications/")
+    }
+    copy{
+        from(file("$rootDir/$propertiesDir/$logPropertiesName"))
+        into("$jbossDir/standalone/configuration/Applications/")
+    }
+}
+
+build.finalizedBy(deploy)
