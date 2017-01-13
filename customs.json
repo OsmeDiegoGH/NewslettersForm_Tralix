@@ -2,8 +2,9 @@
     "attributes": {},
     "elements": {
         "modal-form": {},
-        "modal-form-fields": {},
         "schedule-form": {},
-        "modal-form-buttons": {}
+        "modal-form-fields": {},
+        "modal-form-buttons": {},
+        "ng-form": {}
     }
 }

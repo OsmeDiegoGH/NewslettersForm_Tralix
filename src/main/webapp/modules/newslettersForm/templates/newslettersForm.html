@@ -1,0 +1,46 @@
+<div class="newsletters-form">
+    <h2 class="success-message" ng-if="newslettersFormCtrl.formSubmitted">
+        Gracias por permitirnos estar en constante comunicación con usted
+    </h2>
+    <ng-form name="newslettersFormCtrl.form" ng-if="!newslettersFormCtrl.formSubmitted" role="form">
+        <h2 class="form-title">Tralix desea estar en contacto con usted</h2>
+        <div class="form-group">
+            <label>Email <span class="required-symbol"></span></label>
+            <input type="email" class="form-control" ng-model="newslettersFormCtrl.model.email" required>
+            <p class="text-danger form-error" ng-show="newslettersFormCtrl.form.$error.email !== undefined">Email no válido, verifiquelo por favor</p>
+        </div>
+        <div class="form-group">
+            <label>Nombre <span class="required-symbol"></span></label>
+            <input type="text" class="form-control" ng-model="newslettersFormCtrl.model.name" required>
+        </div>
+        <div class="form-group">
+            <label>Apellido Paterno <span class="required-symbol"></span></label>
+            <input type="text" class="form-control" ng-model="newslettersFormCtrl.model.lastName">
+        </div>
+        <div class="form-group">
+            <label>Apellido Materno</label>
+            <input type="text" class="form-control" ng-model="newslettersFormCtrl.model.maternalLastName">
+        </div>
+        <div class="form-group">
+            <label>Estado <span class="required-symbol"></span></label>
+            <select class="form-control" ng-model="newslettersFormCtrl.model.stateId" ng-class="{'ng-invalid': newslettersFormCtrl.model.stateId === ''}" required>
+                <option value="">Seleccione una opción</option>
+                <option ng-repeat="state in newslettersFormCtrl.mexicoStates" value="{{ state.Id}}">{{ state.Name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Tipo de Industria a la que pertenece <span class="required-symbol"></span></label>
+            <select class="form-control" ng-model="newslettersFormCtrl.model.industryId" ng-class="{'ng-invalid': newslettersFormCtrl.model.industryId === ''}" required>
+                <option value="">Seleccione una opción</option>
+                <option ng-repeat="industry in newslettersFormCtrl.industries" value="{{ industry.Id}}">{{ industry.Name}}</option>
+            </select>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" ng-model="newslettersFormCtrl.model.acceptTerms">
+                He leído y acepto los <a target="_blank" ng-href="{{ newslettersFormCtrl.URL_RESOURCES }}docs/terms_and_conditions.pdf">términos y condiciones</a> acerca de los boletines
+            </label>
+        </div>
+        <button type="button" class="btn btn-primary" ng-click="newslettersFormCtrl.save()" ng-disabled="!newslettersFormCtrl.model.acceptTerms">Guardar</button>
+    </ng-form>
+</div>

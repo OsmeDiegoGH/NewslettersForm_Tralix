@@ -14,7 +14,7 @@ function newslettersFormRESTService(restService){
             onError = angular.noop;
         }
        
-        return restService.doPOST('schedules/admin/save', data, function successCallback(response){
+        return restService.doPOST('newsletters/form/save', data, function successCallback(response){
             onSuccess(response);
         }, function errorCallback(response){
             onError(response.errorMessage || 'Not error specified', response.errorCode || 'No Message specified', response);
