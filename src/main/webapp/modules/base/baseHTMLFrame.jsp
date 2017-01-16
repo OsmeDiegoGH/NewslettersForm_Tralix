@@ -19,7 +19,6 @@
             <template-engine:block name="content"></template-engine:block>
         </div>
     </body>
-    <script src="<c:url value='/resources/vendor/js/jquery.js'/>"></script> 
     <script src="<c:url value='/resources/vendor/js/angular.js'/>"></script>
     <template-engine:block name="scripts"></template-engine:block>
 </html>

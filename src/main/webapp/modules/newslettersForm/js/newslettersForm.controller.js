@@ -1,10 +1,10 @@
 module.controller('newslettersFormController', newslettersFormController);
 
-function newslettersFormController(URL_RESOURCES, mexicoStates, industries, newslettersFormRESTService) {
+function newslettersFormController(URL_RESOURCES, states, industries, newslettersFormRESTService) {
     var self = this;
 
     self.URL_RESOURCES = URL_RESOURCES;
-    self.mexicoStates = mexicoStates;
+    self.states = states;
     self.industries = industries;
     self.formSubmitted = false;
     self.model = {

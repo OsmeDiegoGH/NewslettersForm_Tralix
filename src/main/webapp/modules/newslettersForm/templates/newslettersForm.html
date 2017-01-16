@@ -25,14 +25,14 @@
             <label>Estado <span class="required-symbol"></span></label>
             <select class="form-control" ng-model="newslettersFormCtrl.model.stateId" ng-class="{'ng-invalid': newslettersFormCtrl.model.stateId === ''}" required>
                 <option value="">Seleccione una opción</option>
-                <option ng-repeat="state in newslettersFormCtrl.mexicoStates" value="{{ state.Id}}">{{ state.Name}}</option>
+                <option ng-repeat="state in newslettersFormCtrl.states" value="{{ state.id }}">{{ state.name }}</option>
             </select>
         </div>
         <div class="form-group">
             <label>Tipo de Industria a la que pertenece <span class="required-symbol"></span></label>
             <select class="form-control" ng-model="newslettersFormCtrl.model.industryId" ng-class="{'ng-invalid': newslettersFormCtrl.model.industryId === ''}" required>
                 <option value="">Seleccione una opción</option>
-                <option ng-repeat="industry in newslettersFormCtrl.industries" value="{{ industry.Id}}">{{ industry.Name}}</option>
+                <option ng-repeat="industry in newslettersFormCtrl.industries" value="{{ industry.id }}">{{ industry.name }}</option>
             </select>
         </div>
         <div class="form-group form-check">
