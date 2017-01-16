@@ -1,6 +1,8 @@
 package org.newsletters.restcontroller;
 
+import org.newsletters.mappers.SuscriptorMapper;
 import org.newsletters.model.ResponseErrorModel;
+import org.newsletters.repositories.SuscriptorRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class NewslettersRESTController {
     
     private final int INTERNAL_ERROR_CODE = 500;
+    private final SuscriptorRepository repository = new SuscriptorRepository();
+    private final SuscriptorMapper mapper = new SuscriptorMapper();
     
     public class SaveDTO {
         public String uniqueId;
+        public String email;
+        public String name;
+        public String lastName;
+        public String maternalLastName;
+        public int stateId;
+        public int industryId;
+        public String industryOther;
     }
     
     @RequestMapping(value = "/form/save", method = RequestMethod.POST)
@@ -23,6 +34,7 @@ public class NewslettersRESTController {
             @RequestBody SaveDTO dto
     ) {
         try {
+            repository.insert(mapper.map_SaveDTO_To_Suscriptor(dto));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             //TODO:log full exception

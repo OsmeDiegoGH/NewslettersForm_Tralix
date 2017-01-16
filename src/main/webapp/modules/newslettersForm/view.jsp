@@ -21,16 +21,8 @@
         <script type="text/javascript">
             (function(document){
                 angular.module("newslettersFormModule").constant("URL_RESOURCES", "<c:url value='/resources/'/>");
-                angular.module("newslettersFormModule").constant("mexicoStates", [
-                    {Id:1, Name:"Estado 1"},
-                    {Id:2, Name:"Estado 2"},
-                    {Id:3, Name:"Estado 3"}
-                ]);
-                angular.module("newslettersFormModule").constant("industries", [
-                    {Id:1, Name:"Industria 1"},
-                    {Id:2, Name:"Industria 2"},
-                    {Id:3, Name:"Industria 3"}
-                ]);
+                angular.module("newslettersFormModule").constant("states", ${states});
+                angular.module("newslettersFormModule").constant("industries", ${industries});
                 
                 angular.bootstrap(document, ["newslettersFormModule"]);
             })(document);
