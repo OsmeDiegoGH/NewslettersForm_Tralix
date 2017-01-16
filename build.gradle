@@ -7,6 +7,8 @@ repositories {
 dependencies {
     providedCompile "javax.servlet:javax.servlet-api:3.0.1"
     
+    runtime fileTree(dir: 'libs', include: '*.jar')
+    
     compile "com.google.code.gson:gson:2.2.4",
             "axis:axis:1.4",
             "log4j:log4j:1.2.17",
@@ -17,6 +19,7 @@ dependencies {
             "org.codehaus.jackson:jackson-core-asl:1.9.13",
             "org.codehaus.jackson:jackson-mapper-asl:1.9.13",
             "javax.annotation:javax.annotation-api:1.2",
+            "org.hibernate:hibernate-core:3.6.3.Final",
             fileTree(dir: 'libs', include: '*.jar')
 }
 
