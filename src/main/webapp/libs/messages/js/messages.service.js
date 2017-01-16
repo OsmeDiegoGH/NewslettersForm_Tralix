@@ -27,9 +27,9 @@ function messagesService($timeout, $compile, $rootScope){
     }
     
     function showMessage(msg, messageType, delay, showCloseButton){
-        var directiveElement = angular.element("<message-item message='" + msg + "' message-type='" + messageType + "' show-close-btn='" + showCloseButton + "'></message-item>");
+        var directiveElement = angular.element("<message-item message=\"" + msg + "\" message-type='" + messageType + "' show-close-btn=\"" + showCloseButton + "\"></message-item>");
         var messageElement = $compile(directiveElement)($rootScope, angular.noop);
-        wrappElement.prepend(messageElement);
+        wrappElement.prepend(messageElement[0]);
         $timeout(function(){
             messageElement.remove();
         }, delay || 3000);
