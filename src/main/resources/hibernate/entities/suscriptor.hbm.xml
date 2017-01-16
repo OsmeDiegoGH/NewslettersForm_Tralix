@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="org.newsletters.entities.Suscriptor" table="TB_SUSCRIPTOR">
+        <id name="id" type="int">
+            <column name="ID" precision="5" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">TB_SUSCRIPTOR_SEQ</param>
+            </generator>
+        </id>
+        <property name="email" type="string">
+            <column name="EMAIL" length="50" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="50" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="LAST_NAME" length="50" not-null="true" />
+        </property>
+        <property name="maternalLastName" type="string">
+            <column name="MATERNAL_LAST_NAME" length="50" not-null="false" />
+        </property>
+        <property name="stateId" type="int">
+            <column name="STATE_ID" not-null="true" />
+        </property>
+        <property name="industryId" type="int">
+            <column name="INDUSTRY_ID" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
