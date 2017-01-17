@@ -248,8 +248,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ng-annotate');
     grunt.loadNpmTasks('grunt-karma');  
     grunt.loadNpmTasks('grunt-wait');
-    grunt.registerTask('dev', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp', 'copy:fake_js_min', 'contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'bower:vendor', 'clean:tmp']);
-    grunt.registerTask('prod', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp', 'uglify:resources', 'removelogging:resources', 'contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'clean:vendor', 'bower:vendor', 'clean:tmp']);
+    grunt.registerTask('generate_temp_cache', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp']); 
+    grunt.registerTask('generate_resources_from_temp', ['contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'bower:vendor', 'clean:tmp']); 
+    grunt.registerTask('dev', ['generate_temp_cache', 'copy:fake_js_min', 'generate_resources_from_temp']);
+    grunt.registerTask('prod', ['generate_temp_cache', 'uglify:resources', 'removelogging:resources', 'generate_resources_from_temp']);
     grunt.registerTask('test', ['karma:unit:start', 'wait:waitForChromeInitKarma', 'watch:karma']);
     grunt.registerTask('default', ['watch:dev']);
 };
