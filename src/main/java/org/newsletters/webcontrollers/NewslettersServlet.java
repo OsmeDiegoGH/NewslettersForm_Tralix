@@ -12,11 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/newsletters")
 public class NewslettersServlet {
     
-    private final StateRepository stateRepository = new StateRepository();
-    private final IndustryRepository industryRepository = new IndustryRepository();
+    private final StateRepository stateRepository;
+    private final IndustryRepository industryRepository;
+    
+    public NewslettersServlet(){
+        this(new StateRepository(), new IndustryRepository());
+    }
+    public NewslettersServlet(StateRepository stateRepository, IndustryRepository industryRepository){
+        this.stateRepository = stateRepository;
+        this.industryRepository = industryRepository;
+    }
     
     @RequestMapping(value="/form", method = RequestMethod.GET)
-    public ModelAndView adminView() {
+    public ModelAndView viewForm() {
         ModelAndView view = new ModelAndView("/modules/newslettersForm/view");
         
         String stateListStr = "[]";

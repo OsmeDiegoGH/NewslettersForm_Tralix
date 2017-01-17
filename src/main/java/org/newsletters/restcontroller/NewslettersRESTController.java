@@ -4,7 +4,6 @@ import org.newsletters.mappers.SuscriptorMapper;
 import org.newsletters.model.ResponseErrorModel;
 import org.newsletters.repositories.SuscriptorRepository;
 import org.newsletters.utils.HttpHeadersUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class NewslettersRESTController {
     
     private final int INTERNAL_ERROR_CODE = 500;
-    private final SuscriptorRepository repository = new SuscriptorRepository();
+    private final SuscriptorRepository repository;
     private final SuscriptorMapper mapper = new SuscriptorMapper();
+    
+    public NewslettersRESTController(){
+        this(new SuscriptorRepository());
+    }
+    
+    public NewslettersRESTController(SuscriptorRepository repository){
+        this.repository = repository;
+    }
     
     public class SaveDTO {
         public String uniqueId;
@@ -41,9 +48,8 @@ public class NewslettersRESTController {
             return new ResponseEntity<>(HttpHeadersUtils.INSTANCE.generateCustomHeaders(MediaType.TEXT_PLAIN), HttpStatus.OK);
         } catch (Exception ex) {
             //TODO:log full exception
-            return new ResponseEntity<>(new ResponseErrorModel(INTERNAL_ERROR_CODE, ex.toString()), HttpStatus.INTERNAL_SERVER_ERROR);
+            ResponseErrorModel errorModel = new ResponseErrorModel(INTERNAL_ERROR_CODE, "Ocurrió un error interno al procesar la información");
+            return new ResponseEntity<>(errorModel, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
 }

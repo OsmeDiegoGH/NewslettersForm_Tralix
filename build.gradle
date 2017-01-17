@@ -21,6 +21,12 @@ dependencies {
             "javax.annotation:javax.annotation-api:1.2",
             "org.hibernate:hibernate-core:3.6.3.Final",
             fileTree(dir: 'libs', include: '*.jar')
+            
+    testCompile "org.springframework:spring-test:3.2.14.RELEASE",
+                "junit:junit:4.12",
+                "org.mockito:mockito-core:2.0.57-beta",
+                "pl.pragmatists:JUnitParams:1.0.5",
+                "javax.servlet:javax.servlet-api:3.1.0"
 }
 
 def IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
