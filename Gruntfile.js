@@ -4,13 +4,33 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             options: {
-                debounceDelay: 500,
                 reload: true,
                 atBegin: true
             },
             dev: {
-                files: ['<%=webAppDir%>/**/*.js', '<%=webAppDir%>/**/*.less', '<%=webAppDir%>/**/*.html', '!<%=webAppDir%>/resources/**'],
+                files: [
+                    '<%=webAppDir%>/libs/**/*.js', 
+                    '<%=webAppDir%>/modules/**/*.js', 
+                    '<%=webAppDir%>/libs/**/*.less', 
+                    '<%=webAppDir%>/modules/**/*.less', 
+                    '<%=webAppDir%>/libs/**/*.html', 
+                    '<%=webAppDir%>/modules/**/*.html', 
+                    '!<%=webAppDir%>/resources/**',
+                    '!<%=webAppDir%>/libs/**/test/**',
+                    '!<%=webAppDir%>/modules/**/tests/**'
+                ],
                 tasks: ['dev']
+            },
+            karma: {
+                files: ['<%=webAppDir%>/modules/**/tests/*.js'],
+                tasks: ['karma:unit:run']
+            }
+        },
+        wait: {
+            waitForChromeInitKarma:{
+                options: {
+                    delay: 1500
+                }
             }
         },
         jshint: {
@@ -101,6 +121,23 @@ module.exports = function (grunt) {
                 js_dest: '<%=webAppDir%>/resources/vendor/js',
                 css_dest: '<%=webAppDir%>/resources/vendor/css',
                 fonts_dest: '<%=webAppDir%>/resources/vendor/fonts'
+            }
+        },
+        karma: {  
+            unit: {
+              options: {
+                autoWatch: false,
+                background: true,
+                frameworks: ['jasmine'],
+                browsers: ['Chrome'],
+                files: [
+                  '<%=webAppDir%>/resources/vendor/js/angular.js',
+                  '<%=webAppDir%>/resources/vendor/js/*.js',
+                  '<%=webAppDir%>/resources/libs/js/*.js',
+                  '<%=webAppDir%>/resources/modules/js/*.js',
+                  '<%=webAppDir%>/modules/**/tests/*.js'
+                ]
+              }
             }
         }
     });
@@ -209,7 +246,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-ng-annotate');
-    grunt.registerTask('dev', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp', 'copy:fake_js_min', 'contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'bower:vendor', 'clean:tmp']);
-    grunt.registerTask('prod', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp', 'uglify:resources', 'removelogging:resources', 'contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'clean:vendor', 'bower:vendor', 'clean:tmp']);
+    grunt.loadNpmTasks('grunt-karma');  
+    grunt.loadNpmTasks('grunt-wait');
+    grunt.registerTask('generate_temp_cache', ['clean:resources', 'clean:tmp', 'jshint:dev', 'copy:tmp_cache', 'html2js_by_module', 'concat_modules_js_by_folder', 'concat_libs_js_by_folder', 'ngAnnotate:tmp']); 
+    grunt.registerTask('generate_resources_from_temp', ['contact_modules_css_by_folder', 'contact_libs_css_by_folder', 'less:resources', 'bower:vendor', 'clean:tmp']); 
+    grunt.registerTask('dev', ['generate_temp_cache', 'copy:fake_js_min', 'generate_resources_from_temp']);
+    grunt.registerTask('prod', ['generate_temp_cache', 'uglify:resources', 'removelogging:resources', 'generate_resources_from_temp']);
+    grunt.registerTask('test', ['karma:unit:start', 'wait:waitForChromeInitKarma', 'watch:karma']);
     grunt.registerTask('default', ['watch:dev']);
 };
