@@ -11,6 +11,7 @@ function newslettersFormController(URL_RESOURCES, states, industries, newsletter
         acceptTerms: true
     };
     
+
     self.save = save;
     
     function save(){
